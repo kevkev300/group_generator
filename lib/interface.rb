@@ -51,8 +51,20 @@ class Interface
   end
 
   def get_names
-    puts 'Now, please write the names. When you are at the end, just press enter with out name provided'
-    get_name
+    puts 'Do you want to provide a list of names or write each name separately? Please write list/separate'
+    print '>>> '
+    answer = gets.chomp
+    if answer == 'list'
+      puts 'Please write the names separated by a comma and space (, )'
+      print '>>> '
+      @names = gets.chomp.split(', ')
+    elsif answer == 'separate'
+      puts 'Now, please write the names. When you are at the end, just press enter with out name provided'
+      get_name
+    else
+      puts 'Sorry, I did not understand your answer, please try again!'
+      get_names
+    end
   end
 
   def get_name
@@ -86,7 +98,10 @@ class Interface
     generator = GroupGenerator.new(@names, @group_size)
     generator.group!
 
-    puts 'Here are the groups:'
+    puts 'You provided these names:'
+    puts @names.join(', ')
+    puts ''
+    puts 'Based on that list, we generated the following random groups:'
     puts ''
     generator.groups.each_with_index do |group, i|
       puts "Group #{i + 1}"
